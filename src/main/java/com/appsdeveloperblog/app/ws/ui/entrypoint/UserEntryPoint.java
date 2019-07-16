@@ -1,6 +1,7 @@
 package com.appsdeveloperblog.app.ws.ui.entrypoint;
 
 
+import com.appsdeveloperblog.app.ws.annotations.Secured;
 import com.appsdeveloperblog.app.ws.service.UsersService;
 import com.appsdeveloperblog.app.ws.service.impl.UsersServiceImpl;
 import com.appsdeveloperblog.app.ws.shared.dto.UserDTO;
@@ -11,6 +12,8 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 
 import org.springframework.beans.BeanUtils;
+
+import java.util.List;
 
 @Path("/users")
 public class UserEntryPoint {
@@ -34,6 +37,7 @@ public class UserEntryPoint {
 		return returnValue ;
 	}
 
+	@Secured
 	@GET
     @Path("/{id}")
     @Produces({ MediaType.APPLICATION_JSON,  MediaType.APPLICATION_XML} )
@@ -48,5 +52,16 @@ public class UserEntryPoint {
 
         return returnValue;
     }
+
+    @GET
+    @Produces({ MediaType.APPLICATION_JSON,  MediaType.APPLICATION_XML} )
+    public List<UserProfileRest> getUsers(@QueryParam("start") int start, @QueryParam("limit") int limit){
+        List<UserProfileRest> returnValue = null;
+
+
+
+        return returnValue;
+    }
+
 	
 }

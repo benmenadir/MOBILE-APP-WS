@@ -81,6 +81,9 @@ public class UserProfileUtils {
             spec.clearPassword();
         }
     }
+    public byte[] encrypt(String securePassword, String accessTokenMaterial) throws InvalidKeySpecException {
+        return hash(securePassword.toCharArray(), accessTokenMaterial.getBytes());
+    }
 
 }
  

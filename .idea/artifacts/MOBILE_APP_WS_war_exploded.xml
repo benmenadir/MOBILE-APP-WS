@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
   <artifact type="exploded-war" name="MOBILE-APP-WS:war exploded">
-    <output-path>$PROJECT_DIR$/target/MOBILE-APP-WS</output-path>
+    <output-path>$PROJECT_DIR$/out/artifacts/MOBILE_APP_WS_war_exploded</output-path>
     <root id="root">
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
@@ -62,6 +62,7 @@
           <element id="library" level="project" name="Maven: jaxen:jaxen:1.1.6" />
           <element id="library" level="project" name="Maven: org.apache.ant:ant:1.10.6" />
           <element id="library" level="project" name="Maven: org.apache.ant:ant-launcher:1.10.6" />
+          <element id="library" level="module" name="Maven: com.sun:tools:1.8.0" module-name="MOBILE-APP-WS" />
           <element id="library" level="project" name="Maven: org.eclipse.jdt:org.eclipse.jdt.core:3.17.0" />
           <element id="library" level="project" name="Maven: org.eclipse.platform:org.eclipse.core.resources:3.13.400" />
           <element id="library" level="project" name="Maven: org.eclipse.platform:org.eclipse.core.expressions:3.6.400" />
@@ -87,9 +88,6 @@
           <element id="library" level="project" name="Maven: org.springframework:spring-beans:4.3.7.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework:spring-core:4.3.7.RELEASE" />
         </element>
-      </element>
-      <element id="directory" name="META-INF">
-        <element id="file-copy" path="$PROJECT_DIR$/target/MOBILE-APP-WS/META-INF/MANIFEST.MF" />
       </element>
       <element id="javaee-facet-resources" facet="MOBILE-APP-WS/web/Web" />
     </root>
