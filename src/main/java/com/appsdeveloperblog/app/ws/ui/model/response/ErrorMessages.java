@@ -6,7 +6,8 @@ public enum ErrorMessages {
     INTERNAL_SERVER_ERROR("Internal server error"),
     NO_RECORD_FOUND("Record with provider id is not found"),
     AUTHENTICATION_FAILED("Authentication failed"),
-    COULD_NOT_UPDATE_RECORD("Could not updat record");
+    COULD_NOT_UPDATE_RECORD("Could not updat record"),
+    COULD_NOT_DELETE_RECORD("Could not delete record");
 
 
     private String errorMessages;

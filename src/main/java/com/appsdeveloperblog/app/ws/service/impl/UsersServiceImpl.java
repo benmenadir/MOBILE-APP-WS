@@ -1,6 +1,7 @@
 package com.appsdeveloperblog.app.ws.service.impl;
 
 import com.appsdeveloperblog.app.ws.exceptions.CouldNotCreateRecordException;
+import com.appsdeveloperblog.app.ws.exceptions.CouldNotDeleteRecordException;
 import com.appsdeveloperblog.app.ws.exceptions.CouldNotUpdateRecordException;
 import com.appsdeveloperblog.app.ws.exceptions.NoRecordFoundException;
 import com.appsdeveloperblog.app.ws.io.dao.DAO;
@@ -133,6 +134,30 @@ public class UsersServiceImpl implements UsersService {
             throw new CouldNotUpdateRecordException(ex.getMessage());
         } finally {
             this.database.closeConnection();
+        }
+    }
+
+    @Override
+    public void deleteUser (UserDTO userDto) {
+        try {
+            this.database.openConnection();
+            this.database.deleteUser(userDto);
+        } catch (Exception ex) {
+            throw new CouldNotDeleteRecordException(ex.getMessage());
+        } finally {
+            this.database.closeConnection();
+        }
+
+        // Verify that user is deleted
+        try {
+            userDto = getUser(userDto.getUserId());
+        } catch (NoRecordFoundException ex) {
+            userDto = null;
+        }
+
+        if (userDto != null) {
+            throw new CouldNotDeleteRecordException(
+                    ErrorMessages.COULD_NOT_DELETE_RECORD.getErrorMessages());
         }
     }
 }

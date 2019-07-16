@@ -9,7 +9,6 @@ import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.beans.BeanUtils;
 
-
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -90,16 +89,10 @@ public class MySQLDAO implements DAO {
         return userDTO;
     }
 
-    @Override
-    public void closeConnection ( ) {
-        if (session != null) {
-            session.close();
-        }
-    }
 
     @Override
     public void updateUser (UserDTO userProfile) {
-        UserEntity userEntity =new UserEntity();
+        UserEntity userEntity = new UserEntity();
         BeanUtils.copyProperties(userProfile, userEntity);
 
         session.beginTransaction();
@@ -123,12 +116,30 @@ public class MySQLDAO implements DAO {
                 setFirstResult(start).
                 setMaxResults(limit).
                 getResultList();
-        List<UserDTO> returnValue =  new ArrayList<UserDTO>();
-        for (UserEntity userEntity : searchResult){
+        List<UserDTO> returnValue = new ArrayList<UserDTO>();
+        for (UserEntity userEntity : searchResult) {
             UserDTO userDTO = new UserDTO();
             BeanUtils.copyProperties(userEntity, userDTO);
             returnValue.add(userDTO);
         }
         return returnValue;
+    }
+
+    @Override
+    public void deleteUser (UserDTO userPofile) {
+        UserEntity userEntity = new UserEntity();
+        BeanUtils.copyProperties(userPofile, userEntity);
+
+        session.beginTransaction();
+        session.delete(userEntity);
+        session.getTransaction().commit();
+
+    }
+
+    @Override
+    public void closeConnection ( ) {
+        if (session != null) {
+            session.close();
+        }
     }
 }
