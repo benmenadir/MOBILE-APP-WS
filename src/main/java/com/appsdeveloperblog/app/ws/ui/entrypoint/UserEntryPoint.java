@@ -6,6 +6,7 @@ import com.appsdeveloperblog.app.ws.service.UsersService;
 import com.appsdeveloperblog.app.ws.service.impl.UsersServiceImpl;
 import com.appsdeveloperblog.app.ws.shared.dto.UserDTO;
 import com.appsdeveloperblog.app.ws.ui.model.request.CreateUserRequestModel;
+import com.appsdeveloperblog.app.ws.ui.model.request.UpdateUserRequestModel;
 import com.appsdeveloperblog.app.ws.ui.model.response.UserProfileRest;
 
 import javax.ws.rs.*;
@@ -13,6 +14,7 @@ import javax.ws.rs.core.MediaType;
 
 import org.springframework.beans.BeanUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Path("/users")
@@ -55,13 +57,51 @@ public class UserEntryPoint {
 
     @GET
     @Produces({ MediaType.APPLICATION_JSON,  MediaType.APPLICATION_XML} )
-    public List<UserProfileRest> getUsers(@QueryParam("start") int start, @QueryParam("limit") int limit){
-        List<UserProfileRest> returnValue = null;
+    public List<UserProfileRest> getUsers(@DefaultValue("0")@QueryParam("start") int start,@DefaultValue("50") @QueryParam("limit") int limit){
 
+        UsersService usersService= new UsersServiceImpl();
+        List<UserDTO> users = usersService.getUsers(start, limit);
+
+        // Prepare return Value
+        List<UserProfileRest> returnValue = new ArrayList<UserProfileRest>();
+        for (UserDTO userDTO : users) {
+            UserProfileRest userModel = new UserProfileRest();
+            BeanUtils.copyProperties(userDTO, userModel);
+            userModel.setHref("/users/"+userDTO.getUserId());
+
+            returnValue.add(userModel);
+
+        }
 
 
         return returnValue;
     }
 
-	
+    @PUT
+    @Path("/{id}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces({ MediaType.APPLICATION_JSON,  MediaType.APPLICATION_XML} )
+	public  UserProfileRest updateUserDetails(@PathParam("id") String id, UpdateUserRequestModel userDetails){
+
+	    UsersService userService = new UsersServiceImpl();
+        UserDTO storedUserDetails = userService.getUser(id);
+
+        // Set only those fields you would like to be updated with this request
+        if(userDetails.getFirstName() !=null && !userDetails.getFirstName().isEmpty())
+        {
+            storedUserDetails.setFirstName(userDetails.getFirstName());
+        }
+        storedUserDetails.setLastName(userDetails.getLastName());
+
+        // Update User Details
+        userService.updateUserDetails(storedUserDetails);
+
+        // Prepare return value
+        UserProfileRest returnValue = new UserProfileRest();
+        BeanUtils.copyProperties(storedUserDetails, returnValue);
+
+
+        return returnValue;
+
+    }
 }

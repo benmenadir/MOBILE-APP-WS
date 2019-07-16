@@ -2,6 +2,8 @@ package com.appsdeveloperblog.app.ws.io.dao;
 
 import com.appsdeveloperblog.app.ws.shared.dto.UserDTO;
 
+import java.util.List;
+
 public interface DAO {
     void openConnection();
     UserDTO getUserByUserName(String userName);
@@ -9,4 +11,5 @@ public interface DAO {
     UserDTO getUser (String id);
     void closeConnection();
     void updateUser (UserDTO userProfile);
+    List<UserDTO> getUsers (int start, int limit);
 }
